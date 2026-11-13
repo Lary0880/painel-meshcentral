@@ -3,1321 +3,413 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MeshCentral — Controle de Implantação, IPs e Prazos</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Acesso Restrito — MeshCentral · Controle de Implantação & Redes</title>
   <style>
     :root {
-      --bg: #f0f6ff;
-      --bg-accent: #e0edff;
-      --card: #ffffff;
-      --card-header: #f8fbff;
-      --border: #bfdbfe;
-      --border-strong: #93c5fd;
-      --text: #0f172a;
+      --blue-900: #092052;
+      --blue-800: #0d3b8c;
+      --blue-600: #0284c7;
+      --blue-500: #2563eb;
+      --blue-100: #e0f2fe;
+      --bg-light: #f0f6ff;
+      --text-dark: #0f172a;
       --muted: #475569;
-      --brand-dark: #0c2d6b;
-      --brand-primary: #0284c7;
-      --brand-secondary: #2563eb;
-      --brand-light: #e0f2fe;
-      --brand-glow: rgba(37, 99, 235, 0.12);
-      --success: #059669;
-      --success-bg: #d1fae5;
-      --warning: #d97706;
-      --warning-bg: #fef3c7;
       --danger: #dc2626;
       --danger-bg: #fee2e2;
-      --input-bg: #f8fafc;
-      --shadow: 0 4px 20px rgba(12, 45, 107, 0.07);
     }
-
-    body.dark-mode {
-      --bg: #071126;
-      --bg-accent: #0d1f42;
-      --card: #0f2347;
-      --card-header: #132b57;
-      --border: #1e3a8a;
-      --border-strong: #2563eb;
-      --text: #f1f5f9;
-      --muted: #94a3b8;
-      --brand-dark: #0a1936;
-      --brand-primary: #38bdf8;
-      --brand-secondary: #3b82f6;
-      --brand-light: rgba(56, 189, 248, 0.15);
-      --brand-glow: rgba(56, 189, 248, 0.15);
-      --success: #10b981;
-      --success-bg: rgba(16, 185, 129, 0.2);
-      --warning: #f59e0b;
-      --warning-bg: rgba(245, 158, 11, 0.2);
-      --danger: #ef4444;
-      --danger-bg: rgba(239, 68, 68, 0.2);
-      --input-bg: #091730;
-      --shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
-    }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
+      min-height: 100vh;
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
-      padding-bottom: 60px;
-      transition: background 0.2s, color 0.2s;
-    }
-
-    .hero {
-      background: linear-gradient(135deg, #092052 0%, #0d3b8c 50%, #0284c7 100%);
-      color: #ffffff;
-      padding: 24px 32px;
-      box-shadow: 0 4px 20px rgba(9, 32, 82, 0.25);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .hero-inner {
-      max-width: 1400px;
-      margin: 0 auto;
+      background: linear-gradient(135deg, #071638 0%, #0d3b8c 55%, #0284c7 100%);
+      color: var(--text-dark);
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       justify-content: space-between;
-      align-items: center;
-      gap: 20px;
     }
-
-    .brand-title {
-      display: flex;
-      align-items: center;
-      gap: 16px;
+    .top-bar {
+      height: 5px;
+      width: 100%;
+      background: linear-gradient(90deg, #38bdf8, #2563eb, #10b981);
     }
-
-    .brand-logo {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.15);
-      border: 2px solid rgba(255, 255, 255, 0.35);
+    .auth-wrapper {
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.65rem;
-      backdrop-filter: blur(6px);
+      padding: 24px 16px;
     }
-
-    .brand-title h1 {
-      font-size: 1.55rem;
-      font-weight: 800;
-      letter-spacing: 0.02em;
+    .auth-card {
+      width: 100%;
+      max-width: 430px;
+      background: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 20px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
     }
-
-    .brand-title p {
-      font-size: 0.9rem;
-      color: #bae6fd;
-      margin-top: 2px;
-    }
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .btn {
-      background: rgba(255, 255, 255, 0.14);
+    .auth-header {
+      background: linear-gradient(135deg, #092052 0%, #0d3b8c 60%, #0284c7 100%);
       color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      padding: 9px 14px;
-      border-radius: 9px;
-      font-size: 0.86rem;
-      font-weight: 600;
-      cursor: pointer;
+      padding: 30px 28px 24px;
+      text-align: center;
+      border-bottom: 3px solid #38bdf8;
+    }
+    .auth-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 2px solid rgba(255, 255, 255, 0.35);
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      transition: all 0.2s;
-    }
-
-    .btn:hover {
-      background: rgba(255, 255, 255, 0.26);
-      transform: translateY(-1px);
-    }
-
-    .btn.btn-solid {
-      background: #38bdf8;
-      color: #082f49;
-      border-color: #38bdf8;
-      font-weight: 700;
-    }
-
-    .btn.btn-solid:hover {
-      background: #7dd3fc;
-    }
-
-    .save-pill {
-      font-size: 0.8rem;
-      background: rgba(16, 185, 129, 0.25);
-      border: 1px solid rgba(16, 185, 129, 0.6);
-      color: #d1fae5;
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-weight: 600;
-    }
-
-    .container {
-      max-width: 1400px;
-      margin: 26px auto;
-      padding: 0 24px;
-    }
-
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 18px;
-      margin-bottom: 28px;
-    }
-
-    .kpi-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-left: 5px solid var(--brand-secondary);
-      border-radius: 14px;
-      padding: 18px 20px;
-      box-shadow: var(--shadow);
-    }
-
-    .kpi-label {
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-
-    .kpi-value {
+      justify-content: center;
       font-size: 1.75rem;
+      margin-bottom: 12px;
+    }
+    .auth-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(56, 189, 248, 0.2);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      color: #e0f2fe;
+      font-size: 0.7rem;
       font-weight: 800;
-      color: var(--brand-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 8px;
     }
-
-    body.dark-mode .kpi-value {
-      color: var(--brand-primary);
+    .auth-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #ffffff;
     }
-
-    .kpi-sub {
+    .auth-subtitle {
       font-size: 0.84rem;
-      color: var(--muted);
+      color: #bae6fd;
       margin-top: 4px;
     }
-
-    .progress-bar-outer {
-      width: 100%;
-      height: 10px;
-      background: var(--bg-accent);
-      border-radius: 999px;
-      overflow: hidden;
-      margin-top: 8px;
+    .auth-body {
+      padding: 28px;
     }
-
-    .progress-bar-inner {
-      height: 100%;
-      background: linear-gradient(90deg, #2563eb, #0284c7, #10b981);
-      border-radius: 999px;
-      transition: width 0.35s ease;
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .section-title {
-      font-size: 1.25rem;
-      font-weight: 800;
-      color: var(--brand-dark);
-      display: flex;
+    .error-box {
+      display: none;
       align-items: center;
       gap: 10px;
-    }
-
-    body.dark-mode .section-title {
-      color: #e2e8f0;
-    }
-
-    .deadlines-panel {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 22px;
-      margin-bottom: 32px;
-      box-shadow: var(--shadow);
-    }
-
-    .deadlines-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .deadlines-table th,
-    .deadlines-table td {
+      background: var(--danger-bg);
+      border: 1px solid #fca5a5;
+      color: var(--danger);
       padding: 12px 14px;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.92rem;
+      border-radius: 10px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      margin-bottom: 18px;
     }
-
-    .deadlines-table th {
-      background: var(--card-header);
-      color: var(--muted);
-      font-size: 0.78rem;
+    .field-group {
+      margin-bottom: 18px;
+    }
+    .field-label {
+      display: block;
+      font-size: 0.8rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.04em;
-    }
-
-    .deadlines-table tr:last-child td {
-      border-bottom: none;
-    }
-
-    .badge-subnet {
-      font-family: 'Consolas', 'Courier New', monospace;
-      background: var(--brand-light);
-      color: var(--brand-secondary);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 0.85rem;
-      border: 1px solid var(--border-strong);
-    }
-
-    body.dark-mode .badge-subnet {
-      color: var(--brand-primary);
-    }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 4px 11px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 700;
-    }
-
-    .status-done { background: var(--success-bg); color: var(--success); }
-    .status-progress { background: var(--brand-light); color: var(--brand-secondary); }
-    .status-pending { background: var(--warning-bg); color: var(--warning); }
-    .status-urgent { background: var(--danger-bg); color: var(--danger); }
-
-    .units-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(560px, 1fr));
-      gap: 24px;
-    }
-
-    @media (max-width: 680px) {
-      .units-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .unit-card {
-      background: var(--card);
-      border: 2px solid var(--border);
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
-      transition: border-color 0.25s;
-    }
-
-    .unit-card.completed-card {
-      border-color: var(--success);
-    }
-
-    .unit-header {
-      background: linear-gradient(135deg, #0d3b8c 0%, #1d4ed8 100%);
-      color: #ffffff;
-      padding: 18px 22px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .unit-card.completed-card .unit-header {
-      background: linear-gradient(135deg, #065f46 0%, #059669 100%);
-    }
-
-    .unit-title-group {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .unit-name {
-      font-size: 1.3rem;
-      font-weight: 800;
-      letter-spacing: 0.02em;
-    }
-
-    .unit-ip-badge {
-      background: rgba(255, 255, 255, 0.18);
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      color: #ffffff;
-      font-family: 'Consolas', monospace;
-      padding: 4px 10px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 700;
-    }
-
-    .unit-dates-bar {
-      background: var(--card-header);
-      border-bottom: 1px solid var(--border);
-      padding: 12px 22px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      font-size: 0.85rem;
-    }
-
-    .date-field-group {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .date-field-group label {
-      font-weight: 700;
       color: var(--muted);
-      font-size: 0.8rem;
+      margin-bottom: 6px;
     }
-
-    input[type="date"],
-    input[type="text"],
-    textarea {
-      background: var(--input-bg);
-      color: var(--text);
-      border: 1px solid var(--border-strong);
-      border-radius: 7px;
-      padding: 6px 10px;
-      font-size: 0.85rem;
-      font-family: inherit;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    input[type="date"]:focus,
-    input[type="text"]:focus,
-    textarea:focus {
-      border-color: var(--brand-secondary);
-      box-shadow: 0 0 0 3px var(--brand-glow);
-    }
-
-    .unit-body {
-      padding: 20px 22px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .task-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .task-item {
+    .input-wrap {
+      position: relative;
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 10px 14px;
+    }
+    .auth-input {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      border: 1.5px solid #cbd5e1;
       border-radius: 10px;
-      background: var(--card-header);
-      border: 1px solid var(--border);
+      background: #f8fafc;
+      color: var(--text-dark);
+      outline: none;
       transition: all 0.2s;
     }
-
-    .task-item.done {
-      background: var(--success-bg);
-      border-color: rgba(5, 150, 105, 0.4);
+    .auth-input:focus {
+      border-color: var(--blue-500);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
     }
-
-    .task-checkbox {
-      width: 22px;
-      height: 22px;
-      accent-color: var(--brand-secondary);
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    .task-label {
-      font-weight: 700;
-      font-size: 0.95rem;
-      min-width: 170px;
-      cursor: pointer;
-    }
-
-    .task-item.done .task-label {
-      text-decoration: line-through;
-      color: var(--muted);
-    }
-
-    .task-note-input {
-      flex: 1;
-      min-width: 140px;
-    }
-
-    .ip-section {
-      border: 1px solid var(--border-strong);
-      border-radius: 12px;
-      background: var(--bg);
-      overflow: hidden;
-    }
-
-    .ip-section-header {
-      background: var(--brand-light);
-      padding: 11px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .ip-section-header h4 {
-      font-size: 0.9rem;
-      font-weight: 800;
-      color: var(--brand-dark);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    body.dark-mode .ip-section-header h4 {
-      color: var(--brand-primary);
-    }
-
-    .ip-section-content {
-      padding: 14px;
-    }
-
-    .ip-Config-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .ip-Config-box label {
-      display: block;
+    .toggle-pass {
+      position: absolute;
+      right: 10px;
+      background: #e0f2fe;
+      color: #0369a1;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 6px;
       font-size: 0.75rem;
       font-weight: 700;
-      color: var(--muted);
-      margin-bottom: 3px;
+      cursor: pointer;
     }
-
-    .ip-Config-box input {
+    .auth-btn {
       width: 100%;
-      font-family: 'Consolas', monospace;
-    }
-
-    .ip-devices-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 8px;
-      background: var(--card);
-      border-radius: 8px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-
-    .ip-devices-table th,
-    .ip-devices-table td {
-      padding: 8px 10px;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.83rem;
-      text-align: left;
-    }
-
-    .ip-devices-table th {
-      background: var(--card-header);
-      color: var(--muted);
-      font-size: 0.74rem;
-      text-transform: uppercase;
+      padding: 13px 18px;
+      background: linear-gradient(135deg, #0d3b8c 0%, #0284c7 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.98rem;
       font-weight: 700;
-    }
-
-    .ip-devices-table input[type="text"] {
-      width: 100%;
-      padding: 5px 8px;
-      font-size: 0.82rem;
-    }
-
-    .btn-small {
-      background: var(--brand-secondary);
-      color: #fff;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 7px;
-      font-size: 0.8rem;
-      font-weight: 600;
       cursor: pointer;
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      gap: 5px;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 18px rgba(2, 132, 199, 0.3);
+      transition: transform 0.15s, opacity 0.15s;
     }
-
-    .btn-small:hover {
-      opacity: 0.92;
+    .auth-btn:hover {
+      opacity: 0.95;
+      transform: translateY(-1px);
     }
-
-    .btn-icon-del {
-      background: transparent;
-      border: none;
-      color: var(--danger);
-      cursor: pointer;
-      font-size: 1rem;
-      padding: 2px 6px;
+    .auth-footer {
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      padding: 14px 24px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 600;
     }
-
-    .unit-notes textarea {
-      width: 100%;
-      min-height: 58px;
-      resize: vertical;
-    }
-
-    @media print {
-      .hero { position: static; background: #0d3b8c !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .toolbar, .no-print { display: none !important; }
-      .units-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
-      .unit-card { break-inside: avoid; }
+    .page-footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.75);
     }
   </style>
 </head>
 <body>
-
-  <header class="hero">
-    <div class="hero-inner">
-      <div class="brand-title">
-        <div class="brand-logo">🌐</div>
+  <div class="top-bar"></div>
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-icon">🌐</div>
         <div>
-          <h1>MESHCENTRAL — Controle de Implantação & Redes</h1>
-          <p>Painel Compartilhado em Tempo Real • Atividades, Troca de IPs, UDM e Prazos</p>
+          <span class="auth-badge">🔒 Criptografia AES-256</span>
         </div>
+        <h1 class="auth-title">MeshCentral — Implantação & Redes</h1>
+        <p class="auth-subtitle">Controle de Atividades, Troca de IPs, UDM e Prazos</p>
       </div>
-      <div class="toolbar">
-        <span class="save-pill" id="saveIndicator">☁️ Sincronizado Online</span>
-        <button class="btn" onclick="pullFromCloud(true)" title="Buscar atualizações feitas pelos colegas">🔄 Atualizar Agora</button>
-        <button class="btn" onclick="toggleDarkMode()">🌓 Tema Azul</button>
-        <button class="btn" onclick="exportCSV()">📊 Excel (CSV)</button>
-        <button class="btn btn-solid" onclick="window.print()">🖨️ PDF / Imprimir</button>
+
+      <form id="loginForm" class="auth-body">
+        <div id="errorBox" class="error-box">
+          <span>⚠️</span>
+          <span id="errorText">Usuário ou senha incorretos.</span>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="usernameInput">Usuário</label>
+          <div class="input-wrap">
+            <input
+              id="usernameInput"
+              class="auth-input"
+              type="text"
+              name="username"
+              placeholder="Ex: tiveloci"
+              autocomplete="username"
+              required
+              autofocus
+            />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="passwordInput">Senha</label>
+          <div class="input-wrap">
+            <input
+              id="passwordInput"
+              class="auth-input"
+              type="password"
+              name="password"
+              placeholder="Digite sua senha"
+              autocomplete="current-password"
+              style="padding-right: 78px;"
+              required
+            />
+            <button type="button" id="togglePassBtn" class="toggle-pass">Mostrar</button>
+          </div>
+        </div>
+
+        <button type="submit" id="submitBtn" class="auth-btn">
+          <span>Acessar Painel MeshCentral</span>
+          <span>➔</span>
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        TI / Grupo Veloci · Dados protegidos de ponta a ponta (AES-256-GCM)
       </div>
     </div>
-  </header>
+  </div>
 
-  <main class="container">
-
-    <section class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-label">Progresso Geral da Implantação</div>
-        <div class="kpi-value" id="kpiTotalPct">0%</div>
-        <div class="progress-bar-outer">
-          <div class="progress-bar-inner" id="kpiProgressBar" style="width: 0%;"></div>
-        </div>
-        <div class="kpi-sub" id="kpiTasksCount">0 de 0 atividades concluídas</div>
-      </div>
-
-      <div class="kpi-card">
-        <div class="kpi-label">Unidades Concluídas</div>
-        <div class="kpi-value" id="kpiUnitsDone">0 / 6</div>
-        <div class="kpi-sub">Ondina, Paseo, Pituba, Paralela, SSA e SSA Norte</div>
-      </div>
-
-      <div class="kpi-card">
-        <div class="kpi-label">Equipamentos / IPs Preenchidos</div>
-        <div class="kpi-value" id="kpiIpsDone">0 / 0</div>
-        <div class="kpi-sub">Controle de troca de IPs e comunicação UDM</div>
-      </div>
-
-      <div class="kpi-card">
-        <div class="kpi-label">Próximos Prazos Críticos</div>
-        <div class="kpi-value" style="font-size: 1.25rem;">14/11 • 18/11 • 25/11</div>
-        <div class="kpi-sub">Ondina/Paseo (14/11) | Pituba (20/11) | Paralela (27/11)</div>
-      </div>
-    </section>
-
-    <section class="deadlines-panel">
-      <div class="section-header">
-        <div class="section-title">📅 Cronograma Oficial e Controle de Prazos</div>
-        <span style="font-size: 0.85rem; color: var(--muted);">Qualquer alteração de data ou tarefa marcada é sincronizada online para toda a equipe:</span>
-      </div>
-      <div style="overflow-x: auto;">
-        <table class="deadlines-table">
-          <thead>
-            <tr>
-              <th>Unidade</th>
-              <th>Faixa de Rede (IP)</th>
-              <th>Meta / Regra de Prazo</th>
-              <th>Data de Início</th>
-              <th>Prazo de Conclusão</th>
-              <th>Progresso</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="deadlinesTableBody"></tbody>
-        </table>
-      </div>
-    </section>
-
-    <div class="section-header">
-      <div class="section-title">🏢 Checklist de Atividades e Preenchimento de IPs por Unidade</div>
-      <button class="btn-small no-print" onclick="resetDefaults()" style="background: #64748b;">🔄 Restaurar Padrão Inicial</button>
-    </div>
-
-    <section class="units-grid" id="unitsContainer"></section>
-
-  </main>
+  <div class="page-footer">
+    MeshCentral & Padronização de Redes © 2026
+  </div>
 
   <script>
-    const STORAGE_KEY = 'lalissa_meshcentral_tracker_v1';
-    const CLOUD_API = 'https://api.github.com/repos/Lary0880/planilhas-cantina-volpi/contents/meshcentral_state.json';
-    const ENC_BYTES = [42, 13, 28, 55, 23, 0, 30, 24, 32, 84, 33, 0, 81, 60, 90, 2, 31, 0, 100, 89, 69, 10, 36, 78, 46, 60, 1, 24, 112, 45, 94, 4, 61, 13, 92, 20, 13, 6, 93, 49];
-    const ENC_KEY = 'MeshCentralVeloci2026Key';
+    const VAULT = {"v":1,"piv":"nYhJpjFX4p7yfWn+","pct":"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","users":{"e3d6a5cde4e6f37067a6b445e4a904840202679ad7a56d5e4b3f1ca50f0aecab":{"s":"K41fyYdWZxlgTKNNYKeXFQ==","iv":"3f7nA3R1h4LrV8/u","ct":"2bkcmjmzX19MgfKNTWMtphLPw98XaVIETkVG2VMkjv9P/bKSHy23JY6syN6wplhHhL5zk3cwtn+mlkAxVQXRXk8HUf8OWIDC0ZC+3xCRVYs+NG2TpcY1Lv6le6g8Jd9OXzinlmitsIfI3UCWoYj2WpzplzJ+PwcDRKfbTgaaYe15xeMwDOBjLsEYfxf9RWxnLJdIL97jmvU=","it":100000},"66a866dac56e787b86f1cdd15ae2c4d15c79336f24f1607c147bcdf841e7e187":{"s":"k5cAUYJzs9ZKdlYinfd+TQ==","iv":"Z0Y4cou1ewRBgApl","ct":"kAwnZhOih9eY8al2FA4KTwt2ZaWSC8h/ildFlxE27ycOxPb85K6Ypy6eE8eVui30Uzc9VtI/iKOPUqsf6TZK8skbVcRPNuLtgYfg4n9SY30Fal7dQpugHqwKmhnSH2c72LAjCGOMRN2THbuI29PPdnz9T421aQi+gjoBnZsc3hQftM0GPz7T476ghC7ENSKD6zdaLEg=","it":100000}}};
 
-    function getCloudToken() {
-      try {
-        return ENC_BYTES.map((b, i) => String.fromCharCode(b ^ ENC_KEY.charCodeAt(i % ENC_KEY.length))).join('');
-      } catch (e) {
-        return '';
+    function b64ToBytes(b64) {
+      const bin = atob(b64);
+      const len = bin.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = bin.charCodeAt(i);
       }
+      return bytes;
     }
 
-    function b64DecodeUtf8(b64) {
-      const bin = atob(b64.replace(/\s/g, ''));
-      const bytes = new Uint8Array(bin.length);
-      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-      return new TextDecoder('utf-8').decode(bytes);
+    async function sha256Hex(str) {
+      const buf = new TextEncoder().encode(str);
+      const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+      return Array.from(new Uint8Array(hashBuf))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
     }
 
-    function b64EncodeUtf8(str) {
-      const bytes = new TextEncoder().encode(str);
-      let bin = '';
-      for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
-      return btoa(bin);
+    async function gunzipBytes(compressedBytes) {
+      const ds = new DecompressionStream('gzip');
+      const writer = ds.writable.getWriter();
+      writer.write(compressedBytes);
+      writer.close();
+      const response = new Response(ds.readable);
+      const ab = await response.arrayBuffer();
+      return new TextDecoder('utf-8').decode(ab);
     }
 
-    const DEFAULT_DATA = {
-      updatedAt: 0,
-      darkMode: false,
-      units: [
-        {
-          id: 'ondina',
-          name: 'ONDINA',
-          subnet: '192.168.10.0',
-          deadlineNote: 'Conclusão de Ondina e Paseo até 14/11',
-          startDate: '2026-11-13',
-          endDate: '2026-11-14',
-          gatewayUdm: '192.168.10.1',
-          vlanId: '10',
-          dnsServer: '1.1.1.1 / 8.8.8.8',
-          showIpTable: false,
-          notes: '',
-          tasks: [
-            { id: 't1', title: 'Instalar agentes', done: false, note: '' },
-            { id: 't2', title: 'Criação dash', done: false, note: '' },
-            { id: 't3', title: 'Manutenção', done: false, note: '' }
-          ],
-          ipList: [
-            { device: 'Servidor / Caixa Principal', oldIp: '', newIp: '192.168.10.10', obs: '', done: false }
-          ]
-        },
-        {
-          id: 'paseo',
-          name: 'PASEO',
-          subnet: '192.168.20.0',
-          deadlineNote: 'Conclusão de Ondina e Paseo até 14/11',
-          startDate: '2026-11-13',
-          endDate: '2026-11-14',
-          gatewayUdm: '192.168.20.1',
-          vlanId: '20',
-          dnsServer: '1.1.1.1 / 8.8.8.8',
-          showIpTable: false,
-          notes: '',
-          tasks: [
-            { id: 't1', title: 'Instalar agentes', done: false, note: '' },
-            { id: 't2', title: 'Criação dash', done: false, note: '' },
-            { id: 't3', title: 'Manutenção', done: false, note: '' }
-          ],
-          ipList: [
-            { device: 'Servidor / Caixa Principal', oldIp: '', newIp: '192.168.20.10', obs: '', done: false }
-          ]
-        },
-        {
-          id: 'pituba',
-          name: 'PITUBA',
-          subnet: '192.168.30.0',
-          deadlineNote: 'Começar sem falta 18/11 • Terminar até 20/11',
-          startDate: '2026-11-18',
-          endDate: '2026-11-20',
-          gatewayUdm: '192.168.30.1',
-          vlanId: '30',
-          dnsServer: '1.1.1.1 / 8.8.8.8',
-          showIpTable: true,
-          notes: '',
-          tasks: [
-            { id: 't1', title: 'Mudança de IPs', done: false, note: 'Preencher tabela de IPs abaixo' },
-            { id: 't2', title: 'Comunicação com UDM', done: false, note: '' },
-            { id: 't3', title: 'Instalar os agentes', done: false, note: '' },
-            { id: 't4', title: 'Criação dash', done: false, note: '' },
-            { id: 't5', title: 'Manutenção', done: false, note: '' }
-          ],
-          ipList: [
-            { device: 'UDM / Gateway', oldIp: '', newIp: '192.168.30.1', obs: 'Gerência UDM', done: false },
-            { device: 'Caixa 01 / PDV', oldIp: '', newIp: '192.168.30.10', obs: '', done: false },
-            { device: 'Impressora / Produção', oldIp: '', newIp: '192.168.30.50', obs: '', done: false }
-          ]
-        },
-        {
-          id: 'paralela',
-          name: 'PARALELA',
-          subnet: '192.168.40.0',
-          deadlineNote: 'Começar sem falta até 25/11 • Terminar até 27/11',
-          startDate: '2026-11-25',
-          endDate: '2026-11-27',
-          gatewayUdm: '192.168.40.1',
-          vlanId: '40',
-          dnsServer: '1.1.1.1 / 8.8.8.8',
-          showIpTable: true,
-          notes: '',
-          tasks: [
-            { id: 't1', title: 'Mudanças de IPs', done: false, note: 'Preencher tabela de IPs abaixo' },
-            { id: 't2', title: 'Comunicação UDM', done: false, note: '' },
-            { id: 't3', title: 'Instalar agentes', done: false, note: '' },
-            { id: 't4', title: 'Criação dash', done: false, note: '' },
-            { id: 't5', title: 'Manutenção', done: false, note: '' }
-          ],
-          ipList: [
-            { device: 'UDM / Gateway', oldIp: '', newIp: '192.168.40.1', obs: 'Gerência UDM', done: false },
-            { device: 'Caixa 01 / PDV', oldIp: '', newIp: '192.168.40.10', obs: '', done: false },
-            { device: 'Impressora / Produção', oldIp: '', newIp: '192.168.40.50', obs: '', done: false }
-          ]
-        },
-        {
-          id: 'ssa',
-          name: 'SSA',
-          subnet: '192.168.50.0',
-          deadlineNote: 'Definir prazo (Após Paralela)',
-          startDate: '',
-          endDate: '',
-          gatewayUdm: '192.168.50.1',
-          vlanId: '50',
-          dnsServer: '1.1.1.1 / 8.8.8.8',
-          showIpTable: true,
-          notes: '',
-          tasks: [
-            { id: 't1', title: 'Mudança de IPs', done: false, note: 'Preencher tabela de IPs abaixo' },
-            { id: 't2', title: 'Comunicação UDM', done: false, note: '' },
-            { id: 't3', title: 'Instalar agentes', done: false, note: '' },
-            { id: 't4', title: 'Criação dash', done: false, note: '' },
-            { id: 't5', title: 'Manutenção', done: false, note: '' }
-          ],
-          ipList: [
-            { device: 'UDM / Gateway', oldIp: '', newIp: '192.168.50.1', obs: 'Gerência UDM', done: false },
-            { device: 'Caixa 01 / PDV', oldIp: '', newIp: '192.168.50.10', obs: '', done: false },
-            { device: 'Impressora / Produção', oldIp: '', newIp: '192.168.50.50', obs: '', done: false }
-          ]
-        },
-        {
-          id: 'ssa_norte',
-          name: 'SSA NORTE',
-          subnet: '192.168.60.0',
-          deadlineNote: 'Definir prazo (Inclui Backup e Troca de UDM)',
-          startDate: '',
-          endDate: '',
-          gatewayUdm: '192.168.60.1',
-          vlanId: '60',
-          dnsServer: '1.1.1.1 / 8.8.8.8',
-          showIpTable: true,
-          notes: '',
-          tasks: [
-            { id: 't1', title: 'Mudanças de IPs', done: false, note: 'Preencher tabela de IPs abaixo' },
-            { id: 't2', title: 'Backup UDM', done: false, note: '' },
-            { id: 't3', title: 'Trocar UDM', done: false, note: '' },
-            { id: 't4', title: 'Comunicação UDM', done: false, note: '' },
-            { id: 't5', title: 'Instalar agentes', done: false, note: '' },
-            { id: 't6', title: 'Criação dash', done: false, note: '' },
-            { id: 't7', title: 'Manutenção', done: false, note: '' }
-          ],
-          ipList: [
-            { device: 'UDM Novo / Gateway', oldIp: '', newIp: '192.168.60.1', obs: 'Troca física + Restore Backup', done: false },
-            { device: 'Caixa 01 / PDV', oldIp: '', newIp: '192.168.60.10', obs: '', done: false },
-            { device: 'Impressora / Produção', oldIp: '', newIp: '192.168.60.50', obs: '', done: false }
-          ]
+    async function decryptPayloadWithMasterKey(masterKeyB64, userMeta) {
+      const rawMasterKey = b64ToBytes(masterKeyB64);
+      const payloadIv = b64ToBytes(VAULT.piv);
+      const payloadCt = b64ToBytes(VAULT.pct);
+
+      const cryptoMasterKey = await crypto.subtle.importKey(
+        'raw',
+        rawMasterKey,
+        { name: 'AES-GCM' },
+        false,
+        ['decrypt']
+      );
+
+      const compressedAb = await crypto.subtle.decrypt(
+        { name: 'AES-GCM', iv: payloadIv },
+        cryptoMasterKey,
+        payloadCt
+      );
+
+      const decryptedHtml = await gunzipBytes(new Uint8Array(compressedAb));
+
+      window.__MESH_ACTIVE_USER__ = userMeta;
+      sessionStorage.setItem('mesh_dash_session_v1', JSON.stringify(userMeta));
+
+      document.open();
+      document.write(decryptedHtml);
+      document.close();
+    }
+
+    (async function checkSavedSession() {
+      try {
+        const saved = sessionStorage.getItem('mesh_dash_session_v1');
+        if (!saved) return;
+        const parsed = JSON.parse(saved);
+        if (parsed && parsed.masterKeyB64) {
+          await decryptPayloadWithMasterKey(parsed.masterKeyB64, parsed);
         }
-      ]
-    };
+      } catch (e) {
+        sessionStorage.removeItem('mesh_dash_session_v1');
+      }
+    })();
 
-    let state = loadState();
-    let cloudSha = null;
-    let pushTimer = null;
-    let isSavingCloud = false;
+    document.getElementById('togglePassBtn').addEventListener('click', function() {
+      const passInput = document.getElementById('passwordInput');
+      if (passInput.type === 'password') {
+        passInput.type = 'text';
+        this.textContent = 'Ocultar';
+      } else {
+        passInput.type = 'password';
+        this.textContent = 'Mostrar';
+      }
+    });
 
-    function loadState() {
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const errBox = document.getElementById('errorBox');
+      const errText = document.getElementById('errorText');
+      const submitBtn = document.getElementById('submitBtn');
+
+      errBox.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Verificando credenciais...</span>';
+
       try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) return JSON.parse(raw);
-      } catch (e) {}
-      return JSON.parse(JSON.stringify(DEFAULT_DATA));
-    }
+        const normUser = document.getElementById('usernameInput').value.trim().toLowerCase();
+        const password = document.getElementById('passwordInput').value;
 
-    function setIndicator(text, bg) {
-      const ind = document.getElementById('saveIndicator');
-      if (!ind) return;
-      ind.textContent = text;
-      if (bg) ind.style.background = bg;
-    }
+        const userHash = await sha256Hex('mesh-auth-user:' + normUser);
+        const envelope = VAULT.users[userHash];
 
-    function saveState() {
-      state.updatedAt = Date.now();
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      setIndicator('⏳ Salvando na nuvem...', 'rgba(245, 158, 11, 0.35)');
-      updateSummaryAndDeadlines();
-      scheduleCloudPush();
-    }
+        if (!envelope) {
+          throw new Error('INVALID_CREDENTIALS');
+        }
 
-    function scheduleCloudPush() {
-      if (pushTimer) clearTimeout(pushTimer);
-      pushTimer = setTimeout(() => {
-        pushToCloud();
-      }, 750);
-    }
+        const salt = b64ToBytes(envelope.s);
+        const wrapIv = b64ToBytes(envelope.iv);
+        const wrapCt = b64ToBytes(envelope.ct);
 
-    async function pullFromCloud(manual = false) {
-      const token = getCloudToken();
-      if (!token || isSavingCloud) return;
-      if (manual) setIndicator('🔄 Buscando atualizações...', 'rgba(56, 189, 248, 0.3)');
-      try {
-        const res = await fetch(CLOUD_API + '?t=' + Date.now(), {
-          headers: {
-            'Authorization': 'Bearer ' + token,
-            'Accept': 'application/vnd.github+json'
+        const baseKey = await crypto.subtle.importKey(
+          'raw',
+          new TextEncoder().encode(normUser + ':' + password),
+          'PBKDF2',
+          false,
+          ['deriveKey']
+        );
+
+        const wrappingKey = await crypto.subtle.deriveKey(
+          {
+            name: 'PBKDF2',
+            salt: salt,
+            iterations: envelope.it,
+            hash: 'SHA-256'
           },
-          cache: 'no-store'
-        });
-        if (res.status === 404) {
-          await pushToCloud();
-          return;
-        }
-        if (!res.ok) return;
-        const meta = await res.json();
-        cloudSha = meta.sha;
-        const remoteState = JSON.parse(b64DecodeUtf8(meta.content));
-        if (remoteState && Array.isArray(remoteState.units)) {
-          const localTime = Number(state.updatedAt || 0);
-          const remoteTime = Number(remoteState.updatedAt || 0);
-          if (manual || remoteTime >= localTime) {
-            const keepDark = state.darkMode;
-            state = remoteState;
-            state.darkMode = keepDark;
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-            renderAll();
-          }
-        }
-        const nowStr = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-        setIndicator('☁️ Sincronizado Online (' + nowStr + ')', 'rgba(16, 185, 129, 0.25)');
-      } catch (e) {
-        setIndicator('💾 Salvo no navegador', 'rgba(16, 185, 129, 0.25)');
+          baseKey,
+          { name: 'AES-GCM', length: 256 },
+          false,
+          ['decrypt']
+        );
+
+        const unwrappedAb = await crypto.subtle.decrypt(
+          { name: 'AES-GCM', iv: wrapIv },
+          wrappingKey,
+          wrapCt
+        );
+
+        const userSecret = JSON.parse(new TextDecoder('utf-8').decode(unwrappedAb));
+        submitBtn.innerHTML = '<span>Desbloqueando painel...</span>';
+
+        await decryptPayloadWithMasterKey(userSecret.masterKeyB64, userSecret);
+      } catch (err) {
+        errText.textContent = 'Usuário ou senha incorretos. Verifique seus dados e tente novamente.';
+        errBox.style.display = 'flex';
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Acessar Painel MeshCentral</span><span>➔</span>';
       }
-    }
-
-    async function pushToCloud() {
-      const token = getCloudToken();
-      if (!token) return;
-      isSavingCloud = true;
-      try {
-        if (!cloudSha) {
-          const getRes = await fetch(CLOUD_API + '?t=' + Date.now(), {
-            headers: {
-              'Authorization': 'Bearer ' + token,
-              'Accept': 'application/vnd.github+json'
-            },
-            cache: 'no-store'
-          });
-          if (getRes.ok) {
-            const meta = await getRes.json();
-            cloudSha = meta.sha;
-          }
-        }
-        const payload = {
-          message: 'Atualizacao Painel MeshCentral',
-          content: b64EncodeUtf8(JSON.stringify(state, null, 2)),
-          branch: 'main'
-        };
-        if (cloudSha) payload.sha = cloudSha;
-
-        const putRes = await fetch(CLOUD_API, {
-          method: 'PUT',
-          headers: {
-            'Authorization': 'Bearer ' + token,
-            'Accept': 'application/vnd.github+json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        });
-
-        if (putRes.ok) {
-          const putData = await putRes.json();
-          if (putData && putData.content && putData.content.sha) {
-            cloudSha = putData.content.sha;
-          }
-          const nowStr = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-          setIndicator('☁️ Salvo Online para Todos (' + nowStr + ')', 'rgba(16, 185, 129, 0.25)');
-        } else if (putRes.status === 409) {
-          cloudSha = null;
-          isSavingCloud = false;
-          await pushToCloud();
-          return;
-        }
-      } catch (e) {
-        setIndicator('💾 Salvo Localmente', 'rgba(16, 185, 129, 0.25)');
-      }
-      isSavingCloud = false;
-    }
-
-    function toggleDarkMode() {
-      state.darkMode = !state.darkMode;
-      document.body.classList.toggle('dark-mode', state.darkMode);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
-
-    function getUnitProgress(unit) {
-      const total = unit.tasks.length;
-      const done = unit.tasks.filter(t => t.done).length;
-      const pct = total > 0 ? Math.round((done / total) * 100) : 0;
-      return { total, done, pct };
-    }
-
-    function getUnitStatusBadge(unit, pct) {
-      if (pct === 100) {
-        return `<span class="status-pill status-done">✅ Concluído (100%)</span>`;
-      }
-      if (pct > 0) {
-        return `<span class="status-pill status-progress">⏳ Em Andamento (${pct}%)</span>`;
-      }
-      return `<span class="status-pill status-pending">📌 Pendente</span>`;
-    }
-
-    function updateSummaryAndDeadlines() {
-      let totalTasks = 0;
-      let doneTasks = 0;
-      let unitsDone = 0;
-      let totalIps = 0;
-      let doneIps = 0;
-
-      state.units.forEach(u => {
-        const prog = getUnitProgress(u);
-        totalTasks += prog.total;
-        doneTasks += prog.done;
-        if (prog.pct === 100) unitsDone++;
-        u.ipList.forEach(ip => {
-          totalIps++;
-          if (ip.done) doneIps++;
-        });
-      });
-
-      const overallPct = totalTasks > 0 ? Math.round((doneTasks / totalTasks) * 100) : 0;
-      document.getElementById('kpiTotalPct').textContent = `${overallPct}%`;
-      document.getElementById('kpiProgressBar').style.width = `${overallPct}%`;
-      document.getElementById('kpiTasksCount').textContent = `${doneTasks} de ${totalTasks} atividades concluídas`;
-      document.getElementById('kpiUnitsDone').textContent = `${unitsDone} / ${state.units.length}`;
-      document.getElementById('kpiIpsDone').textContent = `${doneIps} / ${totalIps}`;
-
-      const tbody = document.getElementById('deadlinesTableBody');
-      tbody.innerHTML = state.units.map((u, uIdx) => {
-        const prog = getUnitProgress(u);
-        return `
-          <tr>
-            <td><strong>📍 ${u.name}</strong></td>
-            <td><span class="badge-subnet">${u.subnet}</span></td>
-            <td>${u.deadlineNote}</td>
-            <td>
-              <input type="date" value="${u.startDate || ''}" onchange="updateUnitField(${uIdx}, 'startDate', this.value)" />
-            </td>
-            <td>
-              <input type="date" value="${u.endDate || ''}" onchange="updateUnitField(${uIdx}, 'endDate', this.value)" />
-            </td>
-            <td style="min-width:130px;">
-              <div style="font-size:0.8rem; font-weight:700; margin-bottom:3px;">${prog.done}/${prog.total} (${prog.pct}%)</div>
-              <div class="progress-bar-outer" style="height:7px; margin-top:0;">
-                <div class="progress-bar-inner" style="width:${prog.pct}%;"></div>
-              </div>
-            </td>
-            <td>${getUnitStatusBadge(u, prog.pct)}</td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    function renderAll() {
-      document.body.classList.toggle('dark-mode', !!state.darkMode);
-      updateSummaryAndDeadlines();
-
-      const container = document.getElementById('unitsContainer');
-      container.innerHTML = state.units.map((u, uIdx) => {
-        const prog = getUnitProgress(u);
-        const isCompleted = prog.pct === 100;
-
-        const tasksHtml = u.tasks.map((t, tIdx) => `
-          <div class="task-item ${t.done ? 'done' : ''}">
-            <input type="checkbox" class="task-checkbox" id="chk_${u.id}_${tIdx}" ${t.done ? 'checked' : ''} onchange="toggleTask(${uIdx}, ${tIdx}, this.checked)" />
-            <label class="task-label" for="chk_${u.id}_${tIdx}">${t.title}</label>
-            <input type="text" class="task-note-input" placeholder="Observação / responsável / status..." value="${escapeHtml(t.note || '')}" oninput="updateTaskNote(${uIdx}, ${tIdx}, this.value)" />
-            <button class="btn-icon-del no-print" title="Remover atividade" onclick="removeTask(${uIdx}, ${tIdx})">✕</button>
-          </div>
-        `).join('');
-
-        const ipRowsHtml = u.ipList.map((ip, ipIdx) => `
-          <tr>
-            <td style="width:36px; text-align:center;">
-              <input type="checkbox" class="task-checkbox" style="width:18px; height:18px;" ${ip.done ? 'checked' : ''} onchange="updateIpItem(${uIdx}, ${ipIdx}, 'done', this.checked)" />
-            </td>
-            <td>
-              <input type="text" placeholder="Ex: Caixa 01, Servidor, UDM..." value="${escapeHtml(ip.device || '')}" oninput="updateIpItem(${uIdx}, ${ipIdx}, 'device', this.value)" />
-            </td>
-            <td>
-              <input type="text" placeholder="IP Antigo" value="${escapeHtml(ip.oldIp || '')}" oninput="updateIpItem(${uIdx}, ${ipIdx}, 'oldIp', this.value)" style="font-family:Consolas,monospace;" />
-            </td>
-            <td>
-              <input type="text" placeholder="${u.subnet.replace('.0', '.x')}" value="${escapeHtml(ip.newIp || '')}" oninput="updateIpItem(${uIdx}, ${ipIdx}, 'newIp', this.value)" style="font-family:Consolas,monospace; font-weight:700;" />
-            </td>
-            <td>
-              <input type="text" placeholder="MAC / Porta / Obs" value="${escapeHtml(ip.obs || '')}" oninput="updateIpItem(${uIdx}, ${ipIdx}, 'obs', this.value)" />
-            </td>
-            <td class="no-print" style="width:32px; text-align:center;">
-              <button class="btn-icon-del" title="Remover linha" onclick="removeIpRow(${uIdx}, ${ipIdx})">🗑️</button>
-            </td>
-          </tr>
-        `).join('');
-
-        return `
-          <article class="unit-card ${isCompleted ? 'completed-card' : ''}">
-            <div class="unit-header">
-              <div class="unit-title-group">
-                <span class="unit-name">📍 ${u.name}</span>
-                <span class="unit-ip-badge">Rede: ${u.subnet}</span>
-              </div>
-              <div>
-                <span style="font-weight:700; font-size:0.9rem;">${prog.done}/${prog.total} concluídas (${prog.pct}%)</span>
-              </div>
-            </div>
-
-            <div class="unit-dates-bar">
-              <div class="date-field-group">
-                <label>🚀 Início:</label>
-                <input type="date" value="${u.startDate || ''}" onchange="updateUnitField(${uIdx}, 'startDate', this.value)" />
-                <label style="margin-left:6px;">🏁 Prazo Final:</label>
-                <input type="date" value="${u.endDate || ''}" onchange="updateUnitField(${uIdx}, 'endDate', this.value)" />
-              </div>
-              <div style="font-size:0.8rem; font-weight:600; color:var(--brand-secondary);">
-                📌 ${u.deadlineNote}
-              </div>
-            </div>
-
-            <div class="unit-body">
-              <div>
-                <div class="progress-bar-outer" style="height:9px; margin-top:0;">
-                  <div class="progress-bar-inner" style="width:${prog.pct}%;"></div>
-                </div>
-              </div>
-
-              <div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                  <strong style="font-size:0.88rem; color:var(--muted); text-transform:uppercase;">☑️ Atividades da Unidade</strong>
-                  <button class="btn-small no-print" onclick="addTask(${uIdx})">+ Nova Atividade</button>
-                </div>
-                <div class="task-list">
-                  ${tasksHtml}
-                </div>
-              </div>
-
-              <div class="ip-section">
-                <div class="ip-section-header" onclick="toggleIpSection(${uIdx})">
-                  <h4>🖧 Tabela de Mudança / Mapeamento de IPs (${u.subnet})</h4>
-                  <span style="font-size:0.8rem; font-weight:700; color:var(--brand-secondary);">
-                    ${u.showIpTable ? '▼ Ocultar Tabela' : '▶ Expandir / Preencher IPs'} (${u.ipList.length} itens)
-                  </span>
-                </div>
-                <div class="ip-section-content" style="display: ${u.showIpTable ? 'block' : 'none'};">
-                  <div class="ip-Config-row">
-                    <div class="ip-Config-box">
-                      <label>Gateway / IP UDM</label>
-                      <input type="text" value="${escapeHtml(u.gatewayUdm || '')}" oninput="updateUnitField(${uIdx}, 'gatewayUdm', this.value, false)" />
-                    </div>
-                    <div class="ip-Config-box">
-                      <label>VLAN ID / Sub-rede</label>
-                      <input type="text" value="${escapeHtml(u.vlanId || '')}" oninput="updateUnitField(${uIdx}, 'vlanId', this.value, false)" />
-                    </div>
-                    <div class="ip-Config-box">
-                      <label>DNS Primário / Secundário</label>
-                      <input type="text" value="${escapeHtml(u.dnsServer || '')}" oninput="updateUnitField(${uIdx}, 'dnsServer', this.value, false)" />
-                    </div>
-                  </div>
-
-                  <table class="ip-devices-table">
-                    <thead>
-                      <tr>
-                        <th>OK</th>
-                        <th>Equipamento / Host</th>
-                        <th>IP Antigo</th>
-                        <th>IP Novo (${u.subnet.replace('.0', '.x')})</th>
-                        <th>Observação / MAC</th>
-                        <th class="no-print"></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      ${ipRowsHtml}
-                    </tbody>
-                  </table>
-
-                  <div class="no-print" style="margin-top:10px; display:flex; justify-content:flex-end;">
-                    <button class="btn-small" onclick="addIpRow(${uIdx})">+ Adicionar Equipamento / IP</button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="unit-notes">
-                <label style="display:block; font-size:0.78rem; font-weight:700; color:var(--muted); margin-bottom:4px;">📝 Observações Técnicas / Pendências (${u.name}):</label>
-                <textarea placeholder="Anote aqui detalhes do UDM, máquinas pendentes de agente, links do dashboard ou observações da manutenção..." oninput="updateUnitField(${uIdx}, 'notes', this.value, false)">${escapeHtml(u.notes || '')}</textarea>
-              </div>
-            </div>
-          </article>
-        `;
-      }).join('');
-    }
-
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-    }
-
-    function toggleTask(uIdx, tIdx, checked) {
-      state.units[uIdx].tasks[tIdx].done = checked;
-      saveState();
-      renderAll();
-    }
-
-    function updateTaskNote(uIdx, tIdx, val) {
-      state.units[uIdx].tasks[tIdx].note = val;
-      saveState();
-    }
-
-    function addTask(uIdx) {
-      const name = prompt('Digite o nome da nova atividade para ' + state.units[uIdx].name + ':');
-      if (!name || !name.trim()) return;
-      state.units[uIdx].tasks.push({
-        id: 't_' + Date.now(),
-        title: name.trim(),
-        done: false,
-        note: ''
-      });
-      saveState();
-      renderAll();
-    }
-
-    function removeTask(uIdx, tIdx) {
-      if (!confirm('Remover esta atividade?')) return;
-      state.units[uIdx].tasks.splice(tIdx, 1);
-      saveState();
-      renderAll();
-    }
-
-    function toggleIpSection(uIdx) {
-      state.units[uIdx].showIpTable = !state.units[uIdx].showIpTable;
-      saveState();
-      renderAll();
-    }
-
-    function updateUnitField(uIdx, field, val, rerender = true) {
-      state.units[uIdx][field] = val;
-      saveState();
-      if (rerender) renderAll();
-    }
-
-    function updateIpItem(uIdx, ipIdx, field, val) {
-      state.units[uIdx].ipList[ipIdx][field] = val;
-      saveState();
-      if (field === 'done') renderAll();
-    }
-
-    function addIpRow(uIdx) {
-      const prefix = state.units[uIdx].subnet.replace('.0', '.');
-      state.units[uIdx].ipList.push({
-        device: '',
-        oldIp: '',
-        newIp: prefix,
-        obs: '',
-        done: false
-      });
-      saveState();
-      renderAll();
-    }
-
-    function removeIpRow(uIdx, ipIdx) {
-      state.units[uIdx].ipList.splice(ipIdx, 1);
-      saveState();
-      renderAll();
-    }
-
-    function resetDefaults() {
-      if (!confirm('Deseja restaurar o painel para o padrão original? (Isso atualizará para todos)')) return;
-      state = JSON.parse(JSON.stringify(DEFAULT_DATA));
-      saveState();
-      renderAll();
-    }
-
-    function exportCSV() {
-      const rows = [
-        ['Unidade', 'Sub-rede', 'Início', 'Prazo Final', 'Tipo', 'Atividade / Equipamento', 'Status', 'IP Antigo', 'IP Novo', 'Observações']
-      ];
-      state.units.forEach(u => {
-        u.tasks.forEach(t => {
-          rows.push([
-            u.name, u.subnet, u.startDate, u.endDate,
-            'Atividade', t.title, t.done ? 'Concluído' : 'Pendente', '', '', t.note || ''
-          ]);
-        });
-        u.ipList.forEach(ip => {
-          rows.push([
-            u.name, u.subnet, u.startDate, u.endDate,
-            'Troca de IP', ip.device, ip.done ? 'Trocado' : 'Pendente', ip.oldIp, ip.newIp, ip.obs || ''
-          ]);
-        });
-      });
-      const csvContent = '\uFEFF' + rows.map(r => r.map(c => `"${String(c || '').replace(/"/g, '""')}"`).join(';')).join('\r\n');
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'Controle_MeshCentral_IPs_Prazos.csv';
-      a.click();
-    }
-
-    renderAll();
-    pullFromCloud(false);
+    });
   </script>
 </body>
 </html>
